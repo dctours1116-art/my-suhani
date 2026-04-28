@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ફોર સુહાની ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@300;500;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --bg: #0a0612; --pink: #ff7eb9; --purple: #7a5fff; }
+        body { background-color: var(--bg); color: #fce7f3; font-family: 'Hind Vadodara', sans-serif; overflow-x: hidden; margin: 0; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
+        .glow-text { text-shadow: 0 0 15px rgba(255, 126, 185, 0.6); }
+        .romantic-font { font-family: 'Dancing Script', cursive; }
+        .hidden { display: none; }
+        
+        /* Sorry Flip Card */
+        .sorry-card { perspective: 1000px; width: 320px; height: 180px; margin: auto; }
+        .sorry-inner { position: relative; width: 100%; height: 100%; transition: transform 0.4s; transform-style: preserve-3d; cursor: pointer; }
+        .sorry-inner.flipped { transform: rotateX(180deg); }
+        .sorry-front, .sorry-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; border-radius: 20px; padding: 20px; text-align: center; font-size: 1.1rem; font-weight: bold; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .sorry-front { background: linear-gradient(135deg, #ff7eb9, #7a5fff); color: white; }
+        .sorry-back { background: linear-gradient(135deg, #7a5fff, #ff7eb9); color: white; transform: rotateX(180deg); }
+    </style>
+</head>
+<body>
+<audio id="myAudio" loop></audio>
+
+    <!-- 🎧 SPOTIFY EMBED (PASTE HERE) -->
+    <div id="spotifyEmbed" class="hidden" style="position:fixed; bottom:0; left:0; width:100%; z-index:9999;">
+        <iframe id="spotifyFrame"
+            width="100%" height="152"
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen">
+        </iframe>
+    </div>
+
+    
+    <section id="s0" class="min-h-screen flex flex-col items-center justify-center space-y-8 p-6 text-center">
+        <h1 class="text-4xl glow-text font-bold">તારા મનપસંદ ગીત સાથે શરૂઆત કર ❤️</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-md">
+            <button onclick="startApp('EHSAAS')" class="glass p-4 hover:bg-pink-500/20 transition">EHSAAS 🎵</button>
+            <button onclick="startApp('FINDING HER')" class="glass p-4 hover:bg-pink-500/20 transition">FINDING HER 🎵</button>
+            <button onclick="startApp('JAANA SAMJONA')" class="glass p-4 hover:bg-pink-500/20 transition">JAANA SAMJONA 🎵</button>
+            <button onclick="startApp('ARZ KIYA HAI')" class="glass p-4 hover:bg-pink-500/20 transition">ARZ KIYA HAI 🎵</button>
+        </div>
+    </section>
+
+    <main id="mainContent" class="hidden relative z-10 max-w-3xl mx-auto px-6 py-12">
+        
+        <section id="s1" class="text-center space-y-8 h-screen flex flex-col justify-center">
+            <h1 class="text-6xl glow-text font-bold">હે ક્યૂટી પાઈ 💖</h1>
+            <p class="text-xl opacity-80 italic">તું જાણે છે કે તું કેટલી સ્પેશિયલ છે? તારા જેવું બીજું કોઈ નથી!</p>
+            <button onclick="nextSection('s2')" class="glass px-10 py-4 rounded-full text-pink-300">ચાલો જોઈએ 👇</button>
+        </section>
+
+        <section id="s2" class="hidden text-center space-y-10 h-screen flex flex-col justify-center w-full">
+            <h2 class="text-3xl italic">તારી ક્યૂટનેસ માપી રહ્યા છીએ...</h2>
+            <div class="w-full bg-white/10 rounded-full h-4 overflow-hidden">
+                <div id="meterBar" class="h-full bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-[3000ms]" style="width: 0%"></div>
+            </div>
+            <div id="meterResult" class="hidden animate-bounce">
+                <p class="text-2xl font-bold text-pink-400">⚠️ ચેતવણી: આટલી બધી ક્યૂટનેસ સંભાળવી મુશ્કેલ છે! 💖🔥</p>
+                <button onclick="nextSection('s3')" class="mt-12 glass px-8 py-2 rounded-full opacity-60">આગળ વધો →</button>
+            </div>
+        </section>
+
+        <section id="s3" class="hidden text-center space-y-8 min-h-screen flex flex-col justify-center">
+            <h2 class="text-3xl font-bold">મારું હૃદય સાજું કરો 💔</h2>
+            <div id="gameBox" class="glass aspect-square max-w-xs mx-auto relative cursor-pointer flex items-center justify-center active:scale-95 transition-transform" onclick="repairHeart()">
+                <div id="brokenHeart" class="text-9xl select-none">💔</div>
+            </div>
+            <p id="tapStatus" class="opacity-60">૫ વાર ટેપ કરો</p>
+            <button id="puzBtn" onclick="nextSection('s5')" class="hidden mx-auto glass px-12 py-4 rounded-full text-pink-300">૫૦૦૦ વાર માફી પત્ર 📜</button>
+        </section>
+
+        <section id="s5" class="hidden text-center space-y-12 min-h-screen flex flex-col justify-center">
+            <h2 class="text-3xl font-bold">દરેક ટેપ પર એક નવી વાત...</h2>
+            <div class="sorry-card" onclick="flipSorry()">
+                <div id="sorryInner" class="sorry-inner">
+                    <div class="sorry-front" id="sorryTxt1">અહીં ટેપ કરો...</div>
+                    <div class="sorry-back" id="sorryTxt2">આઈ એમ સોરી!</div>
+                </div>
+            </div>
+            <p class="text-5xl font-bold text-pink-500" id="sorryCounter">0 / 5000</p>
+            <button onclick="nextSection('s6')" class="glass px-8 py-3 rounded-full text-xs uppercase tracking-widest">સીધું માફી પત્ર વાંચો ✨</button>
+        </section>
+
+        <section id="s6" class="hidden space-y-8 py-20 min-h-screen">
+            <div class="glass p-8 md:p-12 space-y-8 text-lg border-l-8 border-pink-500 shadow-2xl">
+                <h2 class="text-4xl text-pink-300 font-bold">સુહાની... હું ખરેખર દિલગીર છું 💔</h2>
+                
+                <p>મને ખબર છે કે મેં તારું દિલ દુભાવ્યું છે, અને મને તેનો ખૂબ જ પસ્તાવો છે. મેં જે કહ્યું અને જે રીતે વર્તન કર્યું તે ખોટું હતું, ખાસ કરીને જ્યારે હું મારા સાચા ભાનમાં નહોતો.</p>
+                
+                <p>તું આવું વર્તન બિલકુલ ડિઝર્વ નથી કરતી. તું મારા જીવનમાં ફક્ત કોઈ વ્યક્તિ નથી... તું મારી શાંતિ છે, મારી ખુશી છે, મારું સર્વસ્વ છે.</p>
+
+                <div class="bg-pink-500/10 p-6 rounded-2xl italic text-pink-200 border-l-4 border-pink-500">
+                    "મને એ વાતનો અફસોસ છે કે મેં તને અસુરક્ષિત કે ડર લાગે તેવું અનુભવ કરાવ્યું. મારો ઈરાદો તને ક્યારેય દુઃખ પહોંચાડવાનો નહોતો, પણ હું મારી ભૂલની પૂરેપૂરી જવાબદારી લઉં છું. હું મારા હૃદયથી તને વચન આપું છું કે હું આ ભૂલ ક્યારેય નહીં દોહરાવું. કોઈ નશો નહીં, એવું કોઈ વર્તન નહીં જેનાથી તને તકલીફ થાય — ક્યારેય નહીં."
+                </div>
+
+                <p>મારે પૂર્ણ અનુભવવા માટે બીજું કંઈ જ નથી જોઈતું... તારી હાજરી જ મારા માટે પૂરતી છે. પ્લીઝ, આ રીતે દૂર ના જા. હું તને મિસ કરું છું. મને તારી જરૂર છે.</p>
+                
+                <p class="text-xl font-bold">Forgive My Kanu Go... I'm With You Always. ❤️</p>
+
+                <div class="pt-8 text-right">
+                    <p class="romantic-font text-5xl text-pink-400">Forever Yours... ❤️</p>
+                    <p class="opacity-60 mt-2">— તારો કાનુડો 💖</p>
+                </div>
+            </div>
+            <button onclick="nextSection('s7')" class="mx-auto block glass px-12 py-4 rounded-full text-pink-300 font-bold">એક છેલ્લી વાત ❤️</button>
+        </section>
+
+        <section id="s7" class="hidden text-center space-y-12 h-screen flex flex-col justify-center">
+            <h2 class="text-3xl font-bold px-4">શું તું મને એક છેલ્લી તક આપીશ? ❤️</h2>
+            <div class="flex flex-col gap-6 justify-center items-center">
+                <button onclick="handleResponse('yes')" class="bg-gradient-to-r from-pink-600 to-purple-600 px-14 py-5 rounded-full font-bold shadow-2xl w-80">હા, મેં તને માફ કર્યો 💖</button>
+                <button onclick="handleResponse('forever')" class="glass px-14 py-5 rounded-full border-pink-500/50 hover:bg-pink-500/20 w-80">હું ક્યારેય તારાથી દૂર નહીં જાઉં 💞</button>
+            </div>
+            <div id="finalMessage" class="hidden glass p-10 mt-8">
+                <p id="messageText" class="text-2xl italic font-bold text-pink-300"></p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Updated Song Links
+const songLinks = {
+    'EHSAAS': 'https://open.spotify.com/embed/track/5PetOhEX9N0oyBB0Keqobv',
+    'FINDING HER': 'https://open.spotify.com/embed/track/5ThyDv6aRVU8AH4vXQNldF',
+    'JAANA SAMJONA': 'https://open.spotify.com/embed/track/1PALLCSlHwAI4upY3sMg8u',
+    'ARZ KIYA HAI': 'https://open.spotify.com/embed/track/1bMkimTb47umgNP6xCi4A1'
+};
+        const sorryLines = [
+            "મને માફ કરી દે ને પ્લીઝ... 🥺", "તારા વગર એકલો પડી ગયો છું. 💔", "મારી ભૂલ થઈ ગઈ, હવે નહીં થાય. 🙏",
+            "તું જ મારી દુનિયા છે, સુહાની. 🌍", "મારી કાનુડી, હવે તો માની જા! 🥰", "તારા વગર બધું જ સૂનું લાગે છે. 🌫️",
+            "હું વચન આપું છું, તને હંમેશા ખુશ રાખીશ. ✨", "તારી એક સ્માઈલ માટે હું કંઈ પણ કરીશ. 😊", "પ્લીઝ, મારાથી દૂર ના જા. 🏃‍♂️",
+            "તારી બહુ યાદ આવે છે. ☁️", "આઈ એમ સોરી, મારી ક્યૂટ પાઈ. 💖", "મેં તારું દિલ દુભાવ્યું એનો બહુ અફસોસ છે. 😔",
+            "સુહવિન હંમેશા સાથે જ સારા લાગે. 💞", "Forgive My Kanu Go... 🥺",
+            "મારો ઈરાદો તને દુઃખ પહોંચાડવાનો નહોતો. 🙏", "હું તારા વગર અધૂરો છું. 🧩"
+        ];
+
+       function startApp(song) {
+
+    // 🎧 LOAD SPOTIFY IN SAME PAGE
+    const frame = document.getElementById('spotifyFrame');
+    const box = document.getElementById('spotifyEmbed');
+
+    frame.src = songLinks[song];
+    box.classList.remove('hidden');
+
+    // (optional) stop unused audio tag
+    const audio = document.getElementById('myAudio');
+    if (audio) audio.pause();
+
+    document.getElementById('s0').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+
+    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+}
+
+        function nextSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if(id === 's2') {
+                setTimeout(() => {
+                    document.getElementById('meterBar').style.width = '100%';
+                    setTimeout(() => document.getElementById('meterResult').classList.remove('hidden'), 3100);
+                }, 500);
+            }
+        }
+
+        let heartTaps = 0;
+        function repairHeart() {
+            heartTaps++;
+            const heart = document.getElementById('brokenHeart');
+            if(heartTaps < 5) heart.style.transform = `scale(${1 + heartTaps * 0.1})`;
+            if(heartTaps === 5) {
+                heart.innerText = '❤️';
+                heart.classList.add('glow-text', 'scale-125');
+                document.getElementById('tapStatus').innerText = 'તેં મારું દિલ જોડી દીધું! 🥰';
+                document.getElementById('puzBtn').classList.remove('hidden');
+                confetti({ particleCount: 100, shapes: ['heart'] });
+            }
+        }
+
+        let sorryCount = 0;
+        function flipSorry() {
+            const inner = document.getElementById('sorryInner');
+            const txt1 = document.getElementById('sorryTxt1');
+            const txt2 = document.getElementById('sorryTxt2');
+            
+            inner.classList.toggle('flipped');
+            sorryCount++; // 1 TAP = 1 COUNT
+            document.getElementById('sorryCounter').innerText = `${sorryCount} / 5000`;
+            
+            const randomLine = sorryLines[Math.floor(Math.random() * sorryLines.length)];
+            if(inner.classList.contains('flipped')) {
+                txt2.innerText = randomLine;
+            } else {
+                txt1.innerText = randomLine;
+            }
+            
+            if(sorryCount % 5 === 0) confetti({ particleCount: 15, gravity: 2, scalar: 0.7 });
+        }
+
+        function handleResponse(type) {
+            const msgBox = document.getElementById('finalMessage');
+            const text = document.getElementById('messageText');
+            msgBox.classList.remove('hidden');
+            if(type === 'yes') {
+                text.innerText = "આઈ લવ યુ સો મચ! તેં મને માફ કરીને દુનિયાનો સૌથી સુખી વ્યક્તિ બનાવી દીધો! ❤️✨";
+            } else {
+                text.innerText = "હવે આપણે ક્યારેય અલગ નહીં થઈએ! તું જ મારું સર્વસ્વ છે સુહવિન! 💞🫂";
+            }
+            confetti({ particleCount: 500, spread: 160, scalar: 2 });
+        }
+    </script>
+</body>
+</html>
